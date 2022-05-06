@@ -1,4 +1,4 @@
-# curso-practico-javascript
+# Curso Práctico de JavaScript
 
 
 ## Taller #1: figuras geométricas
