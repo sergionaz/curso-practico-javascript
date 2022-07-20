@@ -1,3 +1,23 @@
+class Comment {
+    constructor({
+        content,
+        studentName,
+        studentRole = "estudiante",
+    })
+    {
+        this.content = content;
+        this.studentName = studentName;
+        this.studentRole = studentRole;
+        this.likes = 0;
+    }
+    
+    publicar(){
+        console.log(this.studentName + " (" + this.studentRole + ")");
+        console.log(this.likes + " likes");
+        console.log(this.content);
+    }
+}
+
 function videoPlay(id) {
     const urlSecreta = "https://platziultrasecretomasquelanasa.com/" + id;
     console.log("Se está reproduciendo desde la url " + urlSecreta);
@@ -128,7 +148,7 @@ class Student {
         twitter = undefined, 
         instagram = undefined, 
         facebook = undefined, 
-        approveCourses = [],
+        approvedCourses = [],
         learningPaths = [],
     }) {
         this.name = name;
@@ -139,8 +159,16 @@ class Student {
             instagram,
             facebook,
         }; 
-        this.approveCourses = approveCourses;
+        this.approvedCourses = approvedCourses;
         this.learningPaths = learningPaths;
+    }
+
+    publicarComentario(commentContent){
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,            
+        });
+        comment.publicar();
     }
 }
 
@@ -151,7 +179,7 @@ class FreeStudent extends Student {
 
     approveCourse(newCourse) {
         if (newCourse.isFree) {
-            this.approveCourse.push(newCourse);
+            this.approvedCourses.push(newCourse);
         } else {
             console.warn("Lo sentimos, " + this.name + ", solo puedes tomar cursos gratuitos.");
         };
@@ -165,7 +193,7 @@ class BasicStudent extends Student {
 
     approveCourse(newCourse) {
         if (newCourse.lang !== "english") {
-            this.approveCourse.push(newCourse);
+            this.approvedCourses.push(newCourse);
         } else {
             console.warn("Lo sentimos, " + this.name + ", no puedes tomar cursos en inglés.");
         };
@@ -178,11 +206,30 @@ class ExpertStudent extends Student {
     }
 
     approveCourse(newCourse) {
-        this.approveCourse.push(newCourse);
+        this.approvedCourses.push(newCourse);
     };        
 }
 
-const juan2 = new Student({
+class TeacherStudent extends Student {
+    constructor(props) {
+        super(props)
+    }
+
+    approveCourse(newCourse) {
+        this.approvedCourses.push(newCourse);
+    }; 
+
+    publicarComentario(commentContent){
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,            
+            studentRole: 'profesor',
+        });
+        comment.publicar();
+    }
+}
+
+const juan2 = new FreeStudent({
     name: "JuanDC",
     username: "juandc",
     email: "juanito@juanito.com",
@@ -193,7 +240,7 @@ const juan2 = new Student({
     ],
 });
 
-const miguelito2 = new Student({
+const miguelito2 = new BasicStudent({
     name: "Miguelito",
     username: "miguelitofeliz",
     email: "miguelito@miguelito.com",
@@ -202,4 +249,11 @@ const miguelito2 = new Student({
         escuelaWeb,
         escuelaData,
     ],    
+});
+
+const freddy = new TeacherStudent({
+    name: "Freddy Vega",
+    username: "freddier",
+    email: "f@gep.com",
+    instagram: "freddiervega",
 });
