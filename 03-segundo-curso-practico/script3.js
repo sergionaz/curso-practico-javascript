@@ -5,6 +5,8 @@ const input2 = document.querySelector('#calculo2');
 const btn = document.querySelector('#btnCalcular');
 const pResult = document.querySelector('#result');
 
+btn.addEventListener('click', btnOnClick);
+
 function btnOnClick() {
     pResult.innerText = Number(input1.value)+ Number(input2.value)
 }
